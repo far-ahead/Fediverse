@@ -1,0 +1,116 @@
+/* Copyright 2017 Andrew Dawson
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
+package com.farahead.fediverse.adapter;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.farahead.fediverse.R;
+import com.farahead.fediverse.entity.Account;
+import com.farahead.fediverse.interfaces.AccountActionListener;
+import com.farahead.fediverse.util.CustomEmojiHelper;
+import com.farahead.fediverse.util.ImageLoadingHelper;
+
+public class FollowRequestsAdapter extends AccountAdapter {
+
+    public FollowRequestsAdapter(AccountActionListener accountActionListener) {
+        super(accountActionListener);
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            default:
+            case VIEW_TYPE_ACCOUNT: {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_follow_request, parent, false);
+                return new FollowRequestViewHolder(view);
+            }
+            case VIEW_TYPE_FOOTER: {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_footer, parent, false);
+                return new LoadingFooterViewHolder(view);
+            }
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
+            FollowRequestViewHolder holder = (FollowRequestViewHolder) viewHolder;
+            holder.setupWithAccount(accountList.get(position));
+            holder.setupActionListener(accountActionListener);
+        }
+    }
+
+    static class FollowRequestViewHolder extends RecyclerView.ViewHolder {
+        private ImageView avatar;
+        private TextView username;
+        private TextView displayName;
+        private ImageButton accept;
+        private ImageButton reject;
+        private String id;
+        private boolean animateAvatar;
+
+        FollowRequestViewHolder(View itemView) {
+            super(itemView);
+            avatar = itemView.findViewById(R.id.avatar);
+            username = itemView.findViewById(R.id.usernameTextView);
+            displayName = itemView.findViewById(R.id.displayNameTextView);
+            accept = itemView.findViewById(R.id.acceptButton);
+            reject = itemView.findViewById(R.id.rejectButton);
+            animateAvatar = PreferenceManager.getDefaultSharedPreferences(itemView.getContext())
+                    .getBoolean("animateGifAvatars", false);
+        }
+
+        void setupWithAccount(Account account) {
+            id = account.getId();
+            CharSequence emojifiedName = CustomEmojiHelper.emojifyString(account.getName(), account.getEmojis(), displayName);
+            displayName.setText(emojifiedName);
+            String format = username.getContext().getString(R.string.status_username_format);
+            String formattedUsername = String.format(format, account.getUsername());
+            username.setText(formattedUsername);
+            int avatarRadius = avatar.getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.avatar_radius_48dp);
+            ImageLoadingHelper.loadAvatar(account.getAvatar(), avatar, avatarRadius, animateAvatar);
+        }
+
+        void setupActionListener(final AccountActionListener listener) {
+            accept.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onRespondToFollowRequest(true, id, position);
+                }
+            });
+            reject.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onRespondToFollowRequest(false, id, position);
+                }
+            });
+            avatar.setOnClickListener(v -> listener.onViewAccount(id));
+        }
+    }
+}

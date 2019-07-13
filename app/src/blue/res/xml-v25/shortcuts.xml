@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:icon="@mipmap/ic_shortcut_compose"
+        android:shortcutId="com.farahead.fediverse.Compose"
+        android:shortcutLongLabel="@string/compose_shortcut_long_label"
+        android:shortcutShortLabel="@string/compose_shortcut_short_label">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.farahead.fediverse.SplashActivity"
+            android:targetPackage="com.farahead.fediverse"/>
+        <intent
+            android:action="com.farahead.fediverse.Compose"
+            android:targetClass="com.farahead.fediverse.ComposeActivity"
+            android:targetPackage="com.farahead.fediverse"/>
+
+    </shortcut>
+
+</shortcuts>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.farahead.fediverse">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- For notifications -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="22"/> <!-- for day/night mode -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- For sending toots with foreground service -->
+
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:name=".TuskyApplication"
+        android:supportsRtl="true"
+        android:theme="@style/TuskyTheme">
+
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"/>
+        </activity>
+        <activity
+            android:name=".SavedTootActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="${applicationId}"
+                    android:scheme="@string/oauth_scheme" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.chooser.chooser_target_service"
+                android:value="com.farahead.fediverse.service.AccountChooserService"
+                />
+        </activity>
+        <activity
+            android:name=".ComposeActivity"
+            android:theme="@style/TuskyDialogActivityTheme"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+        </activity>
+        <activity
+            android:name=".ViewThreadActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".ViewTagActivity" />
+        <activity android:name=".ViewMediaActivity"
+            android:theme="@style/TuskyBaseTheme"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".AccountActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".PreferencesActivity" />
+        <activity android:name=".FavouritesActivity" />
+        <activity android:name=".AccountListActivity" />
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".TabPreferenceActivity" />
+
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".SearchActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".ListsActivity" />
+        <activity android:name=".ModalTimelineActivity" />
+        <activity android:name=".LicenseActivity" />
+        <activity android:name=".FiltersActivity" />
+        <activity android:name=".components.report.ReportActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".components.instancemute.InstanceListActivity" />
+
+        <receiver android:name=".receiver.NotificationClearBroadcastReceiver" />
+
+        <receiver
+            android:name=".receiver.SendStatusBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            tools:targetApi="24"
+            android:name="com.farahead.fediverse.service.TuskyTileService"
+            android:icon="@drawable/splash"
+            android:label="Compose Post"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <service android:name=".service.SendTootService" />
+        <service
+            tools:targetApi="23"
+            android:name="com.farahead.fediverse.service.AccountChooserService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_CHOOSER_TARGET_SERVICE"
+            >
+            <intent-filter>
+                <action android:name="android.service.chooser.ChooserTargetService" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>
