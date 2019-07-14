@@ -94,17 +94,6 @@
                     android:textSize="16sp" />
 
                 <Button
-                    android:id="@+id/tuskyProfileButton"
-                    style="@style/TuskyButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:lineSpacingMultiplier="1.2"
-                    android:text="@string/about_tusky_account"
-                    android:textAllCaps="false"
-                    android:textSize="16sp" />
-
-                <Button
                     android:id="@+id/aboutLicensesButton"
                     style="@style/TuskyButton.Outlined"
                     android:layout_width="wrap_content"

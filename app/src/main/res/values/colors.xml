@@ -12,14 +12,14 @@
     <color name="white">#ffffff</color>
 
     <!--Dark Theme Colors-->
-    <color name="color_primary_dark">#4c5368</color>
-    <color name="color_primary_dark_dark">#313543</color> <!--Dark Dark-->
-    <color name="color_background_dark">#1a1c23</color>
-    <color name="window_background_dark">#282c37</color>
+    <color name="color_primary_dark">#052649</color>
+    <color name="color_primary_dark_dark">#0a1021</color> <!--Dark Dark-->
+    <color name="color_background_dark">#070d1e</color>
+    <color name="window_background_dark">#111e33</color>
     <color name="text_color_primary_dark">#ffffff</color>
     <color name="text_color_secondary_dark">#d9e1e8</color>
     <color name="text_color_tertiary_dark">#9baec8</color>
-    <color name="toolbar_background_dark">#4c5368</color>
+    <color name="toolbar_background_dark">#19243f</color>
     <color name="toolbar_icon_dark">#d9e1e8</color>
     <color name="status_reblog_button_disabled_dark">#444b5d</color>
     <color name="status_divider_dark">#2f3441</color>

@@ -4,7 +4,7 @@
     <string name="app_website" translatable="false">https://fediverse.farahead.llc</string>
 
     <string name="about_tusky_license2" translatable="false">Fediverse is a modification of Tusky created on 7/6/2019.\n You can find the original project here: https://github.com/tuskyapp/Tusky</string>
-
+    <string name="fed_whats_an_instance" translatable="false"><u>What\'s an Instance?</u></string>
     <string name="oauth_scheme" translatable="false">oauth2redirect</string>
     <string name="preferences_file_key" translatable="false">com.farahead.fediverse.PREFERENCES</string>
 

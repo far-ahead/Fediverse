@@ -39,6 +39,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/domainTextInputLayout"
                     style="@style/TuskyTextInput"
+                    android:paddingTop="10dp"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_domain"
@@ -65,8 +66,9 @@
                     android:id="@+id/whatsAnInstanceTextView"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:text="@string/link_whats_an_instance"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/fed_whats_an_instance"
+                    android:textSize="20dp"
                     android:textAlignment="center" />
             </LinearLayout>
 

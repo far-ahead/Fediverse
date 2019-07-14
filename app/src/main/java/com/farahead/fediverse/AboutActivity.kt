@@ -35,18 +35,10 @@ class AboutActivity : BottomSheetActivity(), Injectable {
         aboutLicenseInfo2TextView.setClickableTextWithoutUnderlines(R.string.about_tusky_license2)
         aboutWebsiteInfoTextView.setClickableTextWithoutUnderlines(R.string.about_project_site)
 
-        tuskyProfileButton.setOnClickListener {
-            onAccountButtonClick()
-        }
-
         aboutLicensesButton.setOnClickListener {
             startActivityWithSlideInAnimation(Intent(this, LicenseActivity::class.java))
         }
 
-    }
-
-    private fun onAccountButtonClick() {
-        viewUrl("https://gab.com/@Fediverse")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
